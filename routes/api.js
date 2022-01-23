@@ -1,6 +1,8 @@
 'use strict';
 
 const SudokuSolver = require('../controllers/sudoku-solver.js');
+//const { response } = require("../server");
+
 
 module.exports = function (app) {
   
@@ -13,6 +15,6 @@ module.exports = function (app) {
     
   app.route('/api/solve')
     .post((req, res) => {
-
+      let puzzleData = res.body.puzzle;
     });
 };
