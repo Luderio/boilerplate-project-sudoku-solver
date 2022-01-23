@@ -17,6 +17,6 @@ module.exports = function (app) {
     .post((req, res) => {
       let puzzleString = res.body.puzzle;
       console.log(puzzleString);
-      solver.validate()
+      //solver.validate()
     });
 };
