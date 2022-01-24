@@ -1,6 +1,20 @@
 class SudokuSolver {
 
   validate(puzzleString) {
+
+    if (!puzzleString) {
+      return 'Required field missing';
+    }
+
+    let invalidCharacter = /[^\d.]/g;
+
+    if (invalidCharacter.test(puzzleString)) {
+      return 'Invalid characters in puzzle';
+    }
+
+    if (puzzleString.length !== 81) {
+      return 'Expected puzzle to be 81 characters long';
+    }
     
   }
 

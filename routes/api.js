@@ -6,6 +6,7 @@ const { response } = require("../server");
 
 module.exports = function (app) {
   
+  // solver method comes from /controllers/sudoku-solver.js
   let solver = new SudokuSolver();
 
   app.route('/api/check')
@@ -17,18 +18,16 @@ module.exports = function (app) {
     .post((req, res) => {
       let puzzleString = req.body.puzzle;
 
-      if (!puzzleString) {
+      let inputValidator = solver.validate(puzzleString);
+
+      if (inputValidator === 'Required field missing') {
         res.json({error: 'Required field missing'});
-      }
-
-      let invalidCharacter = /[^\d.]/g;
-
-      if (invalidCharacter.test(puzzleString)) {
-        res.json({ error: 'Invalid characters in puzzle' });
-      }
-
-      if (puzzleString.length !== 81) {
-        res.json({ error: 'Expected puzzle to be 81 characters long' });
+      }else if (inputValidator === 'Invalid characters in puzzle') {
+        res.json({error: 'Invalid characters in puzzle'});
+      }else if (inputValidator === 'Expected puzzle to be 81 characters long') {
+        res.json({error: 'Expected puzzle to be 81 characters long'});
+      }else {
+        solver.solve(puzzleString);
       }
 
     });
