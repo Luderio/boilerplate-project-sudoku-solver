@@ -31,17 +31,20 @@ class SudokuSolver {
   }
 
   solve(puzzleString) {
-    puzzleString = puzzleString.replace(/[.]/g, 0); // replaces the dots(.) with 0.
-    puzzleString = puzzleString.split("") // converts the string to array of string. 
+    let puzzleString1 = puzzleString.split(""); // converts the string to array of string. 
 
-    puzzleString = puzzleString.map(number => {
+    let puzzleString2 = puzzleString1.map(number => {
+      if (number == ".") {
+        number = '0';
+      }
+
       return Number(number);
     });
 
     //TO SPLIT the puzzleString TO BOARD OF 9.
     let rowCollector = [];
     let board = [];
-    puzzleString.forEach(numbers => {
+    puzzleString2.forEach(numbers => {
       if (rowCollector.length !== 9) {
         rowCollector.push(numbers);
       }
@@ -133,8 +136,9 @@ function solve(board) {
 
 let solution = solve(board);
 
- //return solution.join("");
+ 
  return solution.split(",").join("");
+
     
 
   }
