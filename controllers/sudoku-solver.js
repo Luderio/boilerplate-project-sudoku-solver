@@ -41,7 +41,7 @@ class SudokuSolver {
     //TO SPLIT the puzzleString TO BOARD OF 9.
     let rowCollector = [];
     let board = [];
-    puzzleString2.forEach(numbers => {
+    puzzleString.forEach(numbers => {
       if (rowCollector.length !== 9) {
         rowCollector.push(numbers);
       }
