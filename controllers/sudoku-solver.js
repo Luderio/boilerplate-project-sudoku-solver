@@ -38,6 +38,7 @@ class SudokuSolver {
       return Number(number);
     });
 
+
     //TO SPLIT the puzzleString TO BOARD OF 9.
     let rowCollector = [];
     let board = [];
