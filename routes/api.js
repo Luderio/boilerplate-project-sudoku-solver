@@ -30,5 +30,11 @@ module.exports = function (app) {
         solver.solve(puzzleString);
       }
 
+      if (solver.solve(puzzleString)) {
+        res.json({solution: solver.solve(puzzleString)});
+      }else {
+        res.json({ error: 'Puzzle cannot be solved' });
+      }
+
     });
 };
