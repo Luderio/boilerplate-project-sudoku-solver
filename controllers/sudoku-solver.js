@@ -31,7 +31,9 @@ class SudokuSolver {
   }
 
   solve(puzzleString) {
-    puzzleString = puzzleString.split("").map(number => {
+    let puzzlePattern = puzzleString.split("");
+    
+    let puzzlePatterntoNum = puzzlePattern.map(number => {
       if (number == ".") {
         number = '0';
       }
@@ -42,10 +44,8 @@ class SudokuSolver {
     //TO SPLIT the puzzleString TO BOARD OF 9.
     let rowCollector = [];
     let board = [];
-    puzzleString.forEach(numbers => {
-      if (rowCollector.length !== 9) {
-        rowCollector.push(numbers);
-      }
+    puzzlePatterntoNum.forEach(numbers => {
+      rowCollector.push(numbers);
 
       if (rowCollector.length == 9) {
         board.push(rowCollector);
@@ -132,10 +132,9 @@ function solve(board) {
   return board.join(",");
 }
 
-let solution = solve(board);
+let solution = solve(board).split(",").join("");
 
- 
- return solution.split(",").join("");
+ return solution;
 
     
 
