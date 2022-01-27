@@ -31,13 +31,10 @@ class SudokuSolver {
   }
 
   solve(puzzleString) {
-    let puzzleString1 = puzzleString.split(""); // converts the string to array of string. 
-
-    let puzzleString2 = puzzleString1.map(number => {
+    puzzleString = puzzleString.split("").map(number => {
       if (number == ".") {
         number = '0';
       }
-
       return Number(number);
     });
 
