@@ -34,14 +34,6 @@ module.exports = function (app) {
         validCoordinate.push(rowLetter + col);
       }
 
-      if (validCoordinate.includes(coordinate) == false) {
-        return res.json({ error: 'Invalid coordinate'});
-      }
-
-      if (validValue.includes(Number(value)) == false) {
-        return res.json({ error: 'Invalid value' });
-      }
-
       if (validate == 'Invalid characters in puzzle') {
         return res.json({error: 'Invalid characters in puzzle'});
       }
@@ -50,8 +42,16 @@ module.exports = function (app) {
         return res.json({error: 'Expected puzzle to be 81 characters long'});
       }
 
-      if (!checkObject.puzzle || checkObject.coordinate || checkObject.value) {
+      if (validate == 'Required field missing' || !coordinate || !value) {
         return res.json({error: 'Required field(s) missing'});
+      }
+
+      if (validCoordinate.includes(coordinate) == false) {
+        return res.json({ error: 'Invalid coordinate'});
+      }
+
+      if (validValue.includes(Number(value)) == false) {
+        return res.json({ error: 'Invalid value' });
       }
 
       
