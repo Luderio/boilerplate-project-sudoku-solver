@@ -12,10 +12,6 @@ module.exports = function (app) {
   app.route('/api/check')
     .post((req, res) => {
       const {puzzle, coordinate, value} = req.body;
-      //let puzzleString = req.body.puzzle;
-      //let coordinate = req.body.coordinate;
-      //let value = req.body.value;
-      
 
       solver.validate(puzzle);
       let validate = solver.validate(puzzle);
