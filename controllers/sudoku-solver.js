@@ -55,7 +55,7 @@ class SudokuSolver {
             }else {
               return false;
             }
-          }else {
+          }else if (!rowValues.includes(Number(value))) {
             return true;
           }
         }
@@ -132,7 +132,7 @@ class SudokuSolver {
           }else {
             return false;
           }
-        }else {
+        }else if (!rowValues.includes(Number(value))) {
           return true;
         }
       }
@@ -241,7 +241,7 @@ class SudokuSolver {
           }else {
             return false;
           }
-        }else {
+        }else if (!rowValues.includes(Number(value))) {
           return true;
         }
       }
