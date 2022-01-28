@@ -47,18 +47,16 @@ class SudokuSolver {
     }
 
     if (puzzleBoard[row].hasOwnProperty(row + column)) {
-      let rowValues = Object.values(puzzleBoard[row]);
-        for (let i = 0; i < rowValues.length; i++) {
-          if (rowValues.includes(Number(value))) {
-            if (rowValues[i] == value) {
-              return true;
-            }else {
-              return false;
-            }
-          }else if (!rowValues.includes(Number(value))) {
+      for (let i = 0; i < 9; i++) {
+        let rowValues = Object.values(puzzleBoard[row]);
+        if (rowValues.includes(Number(value))) {
+          if (rowValues[i] == value) {
             return true;
           }
+        }else {
+          return false;
         }
+      }
     }
   }
 
@@ -124,16 +122,16 @@ class SudokuSolver {
     }
 
     if (columnBoard[row].hasOwnProperty(row + column)) {
-      let rowValues = Object.values(columnBoard[row]);
-      for (let i = 0; i < rowValues.length; i++) {
+      for (let i = 0; i < 9; i++) {
+        let rowValues = Object.values(columnBoard[row]);
         if (rowValues.includes(Number(value))) {
           if (rowValues[i] == value) {
             return true;
-          }else {
-            return false;
           }
         }else if (!rowValues.includes(Number(value))) {
           return true;
+        }else {
+          return false;
         }
       }
     }
@@ -233,16 +231,16 @@ class SudokuSolver {
     }
 
     if (regionBoard[row].hasOwnProperty(row + column)) {
-      let rowValues = Object.values(regionBoard[row]);
-      for (let i = 0; i < rowValues.length; i++) {
+      for (let i = 0; i < 9; i++) {
+        let rowValues = Object.values(regionBoard[row]);
         if (rowValues.includes(Number(value))) {
           if (rowValues[i] == value) {
             return true;
-          }else {
-            return false;
           }
         }else if (!rowValues.includes(Number(value))) {
           return true;
+        }else {
+          return false;
         }
       }
     }
@@ -346,8 +344,10 @@ function solve(board) {
 
   if (solution.includes(0)) {
     return 'Puzzle cannot be solved';
+  }else if (!rowValues.includes(Number(value))) {
+    return true;
   }else {
-    return solution;
+    return false;
   }
 
   }
