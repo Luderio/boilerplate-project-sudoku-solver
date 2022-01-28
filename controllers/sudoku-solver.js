@@ -1,3 +1,5 @@
+const { VirtualConsole } = require("jsdom");
+
 class SudokuSolver {
 
   validate(puzzleString) {
@@ -45,14 +47,19 @@ class SudokuSolver {
     }
 
     if (puzzleBoard[row].hasOwnProperty(row + column)) {
-      let rowValues = Object.values(puzzleBoard[row])
-        if (rowValues.includes(Number(value))) {
-          return false;
-        }else {
-          return true;
+      let rowValues = Object.values(puzzleBoard[row]);
+        for (let i = 0; i < rowValues.length; i++) {
+          if (rowValues.includes(Number(value))) {
+            if (rowValues[i] == value) {
+              return true;
+            }else {
+              return true;
+            }
+          }else {
+            return true;
+          }
         }
     }
-
   }
 
   checkColPlacement(puzzleString, row, column, value) {
@@ -117,19 +124,19 @@ class SudokuSolver {
     }
 
     if (columnBoard[row].hasOwnProperty(row + column)) {
-      let rowValues = Object.values(columnBoard[row])
+      let rowValues = Object.values(columnBoard[row]);
+      for (let i = 0; i < rowValues.length; i++) {
         if (rowValues.includes(Number(value))) {
-          return false;
+          if (rowValues[i] == value) {
+            return true;
+          }else {
+            return true;
+          }
         }else {
           return true;
         }
+      }
     }
-
-   
-
-  
-
-
   }
 
   checkRegionPlacement(puzzleString, row, column, value) {
@@ -138,10 +145,9 @@ class SudokuSolver {
 
     puzzleString = puzzleString.map(number => {
       return Number(number);
-    })
+    });
 
     //TO SPLIT the puzzleString TO REGION OF 9.
-
     let regionPartCollector = [];
     let regionPart = [];
 
@@ -201,10 +207,8 @@ class SudokuSolver {
         let region7To9 = [region[0], region[1], region[2]];
         return region7To9;
       }
-
       let regions = [regionOneToThree(regionPart), regionFourToSix(regionPart), regionSevenToNine(regionPart)];
       let region = [regions[0][0], regions[1][0], regions[2][0], regions[0][1], regions[1][1], regions[2][1], regions[0][2], regions[1][2], regions[2][2]];
-      
       //--------------------------------------
       let regionString = region.join("").split(",").join("");
       regionString = regionString.split("");
@@ -229,12 +233,18 @@ class SudokuSolver {
     }
 
     if (regionBoard[row].hasOwnProperty(row + column)) {
-      let rowValues = Object.values(regionBoard[row])
+      let rowValues = Object.values(regionBoard[row]);
+      for (let i = 0; i < rowValues.length; i++) {
         if (rowValues.includes(Number(value))) {
-          return false;
+          if (rowValues[i] == value) {
+            return true;
+          }else {
+            return true;
+          }
         }else {
           return true;
         }
+      }
     }
   }
 
@@ -248,20 +258,17 @@ class SudokuSolver {
       return Number(number);
     });
 
-
     //TO SPLIT the puzzleString TO BOARD OF 9.
     let rowCollector = [];
     let board = [];
     puzzlePatterntoNum.forEach(numbers => {
       rowCollector.push(numbers);
-
       if (rowCollector.length == 9) {
         board.push(rowCollector);
         rowCollector = [];
       }
     });
     //--------------------------------------
-
     function nextEmptySpot(board) {
       for (var i = 0; i < 9; i++) {
           for (var j = 0; j < 9; j++) {
@@ -271,7 +278,6 @@ class SudokuSolver {
       }
       return [-1, -1];
   }
-
   function checkRow(board, row, value){
     for(var i = 0; i < board[row].length; i++) {
         if(board[row][i] === value) {
@@ -281,7 +287,6 @@ class SudokuSolver {
    
     return true;
 }
-
 function checkColumn(board, column, value){
   for(var i = 0; i < board.length; i++) {
       if(board[i][column] === value) {
@@ -291,8 +296,6 @@ function checkColumn(board, column, value){
 
   return true;
 };
-
-
 function checkSquare(board, row, column, value){
   let boxRow = Math.floor(row / 3) * 3;
   let boxCol = Math.floor(column / 3) * 3;
@@ -306,7 +309,6 @@ function checkSquare(board, row, column, value){
 
   return true;
 };
-
 function checkValue(board, row, column, value) {
   if(checkRow(board, row, value) &&
     checkColumn(board, column, value) &&
@@ -316,7 +318,6 @@ function checkValue(board, row, column, value) {
   
   return false; 
 };
-
 function solve(board) {  
   let emptySpot = nextEmptySpot(board);
   let row = emptySpot[0];
@@ -349,10 +350,7 @@ function solve(board) {
     return solution;
   }
 
-    
-
   }
-
 }
 
 module.exports = SudokuSolver;
