@@ -15,7 +15,7 @@ class SudokuSolver {
     if (puzzleString.length !== 81) {
       return 'Expected puzzle to be 81 characters long';
     }
-    
+
   }
 
   checkRowPlacement(puzzleString, row, column, value) {
@@ -129,12 +129,17 @@ function solve(board) {
   if (nextEmptySpot(board)[0] !== -1)
       board[row][col] = 0;
 
-  return board.join(",");
+  return board;
 }
 
-let solution = solve(board).split(",").join("");
+let solution = solve(board)
+solution = solution.join().split(",").join("");
 
- return solution;
+if (solution.includes(0)) {
+  return 'Puzzle cannot be solved';
+}else {
+  return solution;
+}
 
     
 

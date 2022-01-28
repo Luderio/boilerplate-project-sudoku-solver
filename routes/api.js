@@ -18,30 +18,29 @@ module.exports = function (app) {
     .post((req, res) => {
       let puzzleString = req.body.puzzle;
 
-      if (!puzzleString) {
+      solver.validate(puzzleString);
+      solver.solve(puzzleString);
+
+      let validate = solver.validate(puzzleString);
+
+      if (validate == 'Required field missing') {
       return res.json({error: 'Required field missing'});
     }
 
-    let invalidCharacter = /[^\d.]/g;
-
-    if (invalidCharacter.test(puzzleString)) {
+    if (validate == 'Invalid characters in puzzle') {
       return res.json({error: 'Invalid characters in puzzle'});
     }
 
-    if (puzzleString.length !== 81) {
+    if (validate == 'Expected puzzle to be 81 characters long') {
       return res.json({error: 'Expected puzzle to be 81 characters long'});
     }
 
-    solver.solve(puzzleString);
-    
       let SolutionString = solver.solve(puzzleString);
 
-      if (SolutionString) {
-        return res.json({solution: SolutionString});
-      }
-
-      if (SolutionString) {
+      if (SolutionString == 'Puzzle cannot be solved') {
         return res.json({ error: 'Puzzle cannot be solved' });
+      }else {
+        return res.json({solution: SolutionString});
       }
 
     });
