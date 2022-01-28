@@ -11,18 +11,14 @@ module.exports = function (app) {
 
   app.route('/api/check')
     .post((req, res) => {
-      let puzzleString = req.body.puzzle;
-      let coordinate = req.body.coordinate;
-      let value = req.body.value;
+      const {puzzle, coordinate, value} = req.body;
+      //let puzzleString = req.body.puzzle;
+      //let coordinate = req.body.coordinate;
+      //let value = req.body.value;
+      
 
-      let checkObject = {};
-
-      checkObject['puzzle'] = puzzleString;
-      checkObject['coordinate'] = coordinate;
-      checkObject['value'] = value;
-
-      solver.validate(puzzleString);
-      let validate = solver.validate(puzzleString);
+      solver.validate(puzzle);
+      let validate = solver.validate(puzzle);
 
       let validCoordinate = [];//contains valid coordinates.
       let validValue = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -54,6 +50,8 @@ module.exports = function (app) {
         return res.json({ error: 'Invalid value' });
       }
 
+      return res.json("Running...");
+
       
     });
     
@@ -66,26 +64,27 @@ module.exports = function (app) {
       let validate = solver.validate(puzzleString);
 
       if (validate == 'Required field missing') {
-      return res.json({error: 'Required field missing'});
-    }
-
-    if (validate == 'Invalid characters in puzzle') {
-      return res.json({error: 'Invalid characters in puzzle'});
-    }
-
-    if (validate == 'Expected puzzle to be 81 characters long') {
-      return res.json({error: 'Expected puzzle to be 81 characters long'});
-    }
-
-    solver.solve(puzzleString);
-
-      let SolutionString = solver.solve(puzzleString);
-
-      if (SolutionString == 'Puzzle cannot be solved') {
-        return res.json({ error: 'Puzzle cannot be solved' });
-      }else {
-        return res.json({solution: SolutionString});
+        return res.json({error: 'Required field missing'});
       }
+
+      if (validate == 'Invalid characters in puzzle') {
+        return res.json({error: 'Invalid characters in puzzle'});
+      }
+
+      if (validate == 'Expected puzzle to be 81 characters long') {
+        return res.json({error: 'Expected puzzle to be 81 characters long'});
+      }
+
+      solver.solve(puzzleString);
+
+        let SolutionString = solver.solve(puzzleString);
+
+        if (SolutionString == 'Puzzle cannot be solved') {
+          return res.json({ error: 'Puzzle cannot be solved' });
+        }else {
+          return res.json({solution: SolutionString});
+        }
+
 
     });
 };
