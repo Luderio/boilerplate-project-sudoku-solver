@@ -132,14 +132,14 @@ function solve(board) {
   return board;
 }
 
-let solution = solve(board)
-solution = solution.join().split(",").join("");
+  let solution = solve(board)
+  solution = solution.join().split(",").join("");
 
-if (solution.includes(0)) {
-  return 'Puzzle cannot be solved';
-}else {
-  return solution;
-}
+  if (solution.includes(0)) {
+    return 'Puzzle cannot be solved';
+  }else {
+    return solution;
+  }
 
     
 
