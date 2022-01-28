@@ -14,25 +14,27 @@ module.exports = function (app) {
 
     });
     
-  app.route('/api/solve')
+    app.route('/api/solve')
     .post((req, res) => {
       let puzzleString = req.body.puzzle;
 
-      let inputValidator = solver.validate(puzzleString);
+      if (!puzzleString) {
+      res.json({error: 'Required field missing'});
+    }
 
-      if (inputValidator === 'Required field missing') {
-        res.json({error: 'Required field missing'});
-      }else if (inputValidator === 'Invalid characters in puzzle') {
-        res.json({error: 'Invalid characters in puzzle'});
-      }else if (inputValidator === 'Expected puzzle to be 81 characters long') {
-        res.json({error: 'Expected puzzle to be 81 characters long'});
-      }else {
-        solver.solve(puzzleString);
-      }
+    let invalidCharacter = /[^\d.]/g;
 
+    if (invalidCharacter.test(puzzleString)) {
+      res.json({error: 'Invalid characters in puzzle'});
+    }
+
+    if (puzzleString.length !== 81) {
+      res.json({error: 'Expected puzzle to be 81 characters long'});
+    }
+    
       let SolutionString = solver.solve(puzzleString);
 
-      if (solver.solve(puzzleString)) {
+      if (SolutionString) {
         res.json({solution: SolutionString});
       }else {
         res.json({ error: 'Puzzle cannot be solved' });
