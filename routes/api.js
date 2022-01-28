@@ -19,7 +19,6 @@ module.exports = function (app) {
       let puzzleString = req.body.puzzle;
 
       solver.validate(puzzleString);
-      solver.solve(puzzleString);
 
       let validate = solver.validate(puzzleString);
 
