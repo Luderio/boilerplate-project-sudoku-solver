@@ -47,16 +47,14 @@ class SudokuSolver {
     }
 
     if (puzzleBoard[row].hasOwnProperty(row + column)) {
-      for (let i = 0; i < 9; i++) {
         let rowValues = Object.values(puzzleBoard[row]);
-        if (rowValues.includes(Number(value))) {
-          if (rowValues[i] == value) {
-            return true;
-          }
+        if (!rowValues.includes(Number(value))) {
+          return true;
+        }else if (rowValues.includes(Number(value)) && puzzleBoard[row][row + column] == value) {
+          return true;
         }else {
           return false;
         }
-      }
     }
   }
 
@@ -122,18 +120,14 @@ class SudokuSolver {
     }
 
     if (columnBoard[row].hasOwnProperty(row + column)) {
-      for (let i = 0; i < 9; i++) {
         let rowValues = Object.values(columnBoard[row]);
-        if (rowValues.includes(Number(value))) {
-          if (rowValues[i] == value) {
-            return true;
-          }
-        }else if (!rowValues.includes(Number(value))) {
+        if (!rowValues.includes(Number(value))) {
+          return true;
+        }else if (rowValues.includes(Number(value)) && columnBoard[row][row + column] == value) {
           return true;
         }else {
           return false;
         }
-      }
     }
   }
 
@@ -231,18 +225,15 @@ class SudokuSolver {
     }
 
     if (regionBoard[row].hasOwnProperty(row + column)) {
-      for (let i = 0; i < 9; i++) {
         let rowValues = Object.values(regionBoard[row]);
-        if (rowValues.includes(Number(value))) {
-          if (rowValues[i] == value) {
-            return true;
-          }
-        }else if (!rowValues.includes(Number(value))) {
+        if (!rowValues.includes(Number(value))) {
+          return true;
+        }else if (rowValues.includes(Number(value)) && regionBoard[row][row + column] == value) {
           return true;
         }else {
           return false;
         }
-      }
+      
     }
   }
 
