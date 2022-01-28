@@ -53,7 +53,7 @@ class SudokuSolver {
             if (rowValues[i] == value) {
               return true;
             }else {
-              return true;
+              return false;
             }
           }else {
             return true;
@@ -130,7 +130,7 @@ class SudokuSolver {
           if (rowValues[i] == value) {
             return true;
           }else {
-            return true;
+            return false;
           }
         }else {
           return true;
@@ -239,7 +239,7 @@ class SudokuSolver {
           if (rowValues[i] == value) {
             return true;
           }else {
-            return true;
+            return false;
           }
         }else {
           return true;
