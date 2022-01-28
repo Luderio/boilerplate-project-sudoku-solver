@@ -9,9 +9,8 @@ suite('UnitTests', function() {
         
         //Test 1: Logic handles a valid puzzle string of 81 characters.
         test('String should be 81 characters long', function(done) {
-            assert.isString(solver.solve.length);
+            assert.isString(solver.solve);
             done();
         });
     });
 });
-//jhgjh
