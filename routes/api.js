@@ -15,6 +15,12 @@ module.exports = function (app) {
       let coordinate = req.body.coordinate;
       let value = req.body.value;
 
+      let checkObject = {};
+
+      checkObject['puzzle'] = puzzleString;
+      checkObject['coordinate'] = coordinate;
+      checkObject['value'] = value;
+
       solver.validate(puzzleString);
       let validate = solver.validate(puzzleString);
 
@@ -44,7 +50,7 @@ module.exports = function (app) {
         return res.json({error: 'Expected puzzle to be 81 characters long'});
       }
 
-      if (validate == 'Required field missing' || !coordinate || !value) {
+      if (!checkObject.puzzle || checkObject.coordinate || checkObject.value) {
         return res.json({error: 'Required field(s) missing'});
       }
 
