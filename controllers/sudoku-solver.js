@@ -52,6 +52,8 @@ class SudokuSolver {
           return true;
         }else if (rowValues.includes(Number(value)) && puzzleBoard[row][row + column] == value) {
           return true;
+        }else if (!rowValues.includes(Number(value)) && puzzleBoard[row][row + column] !== value) {
+          return true;
         }else {
           return false;
         }
@@ -124,6 +126,8 @@ class SudokuSolver {
         if (!rowValues.includes(Number(value))) {
           return true;
         }else if (rowValues.includes(Number(value)) && columnBoard[row][row + column] == value) {
+          return true;
+        }else if (!rowValues.includes(Number(value)) && columnBoard[row][row + column] !== value) {
           return true;
         }else {
           return false;
@@ -229,6 +233,8 @@ class SudokuSolver {
         if (!rowValues.includes(Number(value))) {
           return true;
         }else if (rowValues.includes(Number(value)) && regionBoard[row][row + column] == value) {
+          return true;
+        }else if (!rowValues.includes(Number(value)) && regionBoard[row][row + column] !== value) {
           return true;
         }else {
           return false;
