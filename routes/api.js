@@ -46,7 +46,35 @@ module.exports = function (app) {
         return res.json({ error: 'Invalid value' });
       }
 
-      return res.json("Running...");
+      const row = coordinate.split("")[0];
+      const column = coordinate.split("")[1];
+
+      let validRow = solver.checkRowPlacement(puzzle, row, column, value);
+      let validColumn = solver.checkColPlacement(puzzle, row, column, value);
+      let validRegion = solver.checkRegionPlacement(puzzle, row, column, value);
+
+      let conflict = [];
+
+      if (validRow && validColumn && validRegion) {
+        return res.json({valid: true});
+      }else {
+        if (validRow == false) {
+          conflict.push("row");
+        }
+        
+        if (validColumn == false) {
+          conflict.push("column");
+        }
+        
+        if (validRegion == false) {
+          conflict.push("region");
+        }
+
+        return res.json({valid: false, conflict: conflict});
+
+      }
+
+      
 
       
     });
