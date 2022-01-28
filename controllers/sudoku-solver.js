@@ -344,10 +344,8 @@ function solve(board) {
 
   if (solution.includes(0)) {
     return 'Puzzle cannot be solved';
-  }else if (!rowValues.includes(Number(value))) {
-    return true;
   }else {
-    return false;
+    return solution;
   }
 
   }
