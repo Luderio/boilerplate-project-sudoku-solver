@@ -15,10 +15,8 @@ module.exports = function (app) {
       let coordinate = req.body.coordinate;
       let value = req.body.value;
 
-      solver.validate(puzzleString);
-      let validate = solver.validate(puzzleString);
-
       let validCoordinate = [];//contains valid coordinates.
+      let validValue = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
       let len = 81;
       for (let i = 0; i < len; i++) {
@@ -31,20 +29,21 @@ module.exports = function (app) {
         return res.json({ error: 'Invalid coordinate'});
       }
 
-      if (value < 1 || value > 9) {
+      if (!validValue.includes(value)) {
         return res.json({ error: 'Invalid value' });
       }
 
+      let invalidCharacter = /[^\d.]/g;
 
-      if (validate == 'Invalid characters in puzzle') {
+      if (invalidCharacter.test(puzzleString)) {
         return res.json({error: 'Invalid characters in puzzle'});
       }
 
-      if (validate == 'Expected puzzle to be 81 characters long') {
+      if (puzzleString.length !== 81) {
         return res.json({error: 'Expected puzzle to be 81 characters long'});
       }
 
-      if (validate == 'Required field missing' || coordinate == '' || value == '') {
+      if (puzzleString == '' || coordinate == '' || value == '') {
         return res.json({error: 'Required field(s) missing'});
       }
 
