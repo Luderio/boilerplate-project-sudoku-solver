@@ -20,13 +20,15 @@ suite('UnitTests', function() {
         test('Invalid Characters', function(done) {
             let inputString = 'g.9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
             assert.equal(solver.validate(inputString), 'Invalid characters in puzzle');
+            assert.equal(solver.solve(inputString), false);
             done();
         });
 
         //Test 3: Logic handles a puzzle string that is not 81 characters in length.
         test('String not equal to 81 characters (80 characters)', function(done) {
-            let inputString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6.';
+            let inputString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6...';
             assert.equal(solver.validate(inputString), 'Expected puzzle to be 81 characters long');
+            assert.equal(solver.solve(inputString), false);
             done();
         });
 
@@ -100,7 +102,7 @@ suite('UnitTests', function() {
         //Test 11: Invalid puzzle strings fail the solver.
         test('Invalid puzzle strings fail the solver.', function(done) {
             let inputString = '115..2.84..63.12.7.2..5.....9..1....8.2.3674.3.7.2..9.47...8..1..16....926914.37.';
-            assert.equal(solver.solve(inputString), 'Puzzle cannot be solved');
+            assert.equal(solver.solve(inputString), false);
             done();
         });
 

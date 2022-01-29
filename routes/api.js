@@ -103,7 +103,7 @@ module.exports = function (app) {
 
         let SolutionString = solver.solve(puzzleString);
 
-        if (SolutionString == 'Puzzle cannot be solved') {
+        if (SolutionString == false) {
           return res.json({ error: 'Puzzle cannot be solved' });
         }else {
           return res.json({solution: SolutionString});

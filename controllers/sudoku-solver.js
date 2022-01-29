@@ -298,6 +298,7 @@ class SudokuSolver {
   }
 
   solve(puzzleString) {
+    let stringInput = puzzleString;
     let puzzlePattern = puzzleString.split("");
     
     let puzzlePatterntoNum = puzzlePattern.map(number => {
@@ -393,8 +394,18 @@ function solve(board) {
   let solution = solve(board)
   solution = solution.join().split(",").join("");
 
+  console.log(solution);
+
+  if (this.validate(stringInput) == 'Invalid characters in puzzle') {
+    return false;
+  }
+  
+  if (this.validate(stringInput) == 'Expected puzzle to be 81 characters long') {
+    return false;
+  }
+  
   if (solution.includes(0)) {
-    return 'Puzzle cannot be solved';
+    return false;
   }else {
     return solution;
   }
