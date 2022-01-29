@@ -48,11 +48,11 @@ class SudokuSolver {
 
     if (puzzleBoard[row].hasOwnProperty(row + column)) {
         let rowValues = Object.values(puzzleBoard[row]);
-        if (!rowValues.includes(Number(value))) {
+        if (rowValues.includes(Number(value)) && puzzleBoard[row][row + column] == value) {
           return true;
-        }else if (rowValues.includes(Number(value)) && puzzleBoard[row][row + column] == value) {
-          return true;
-        }else if (!rowValues.includes(Number(value)) && puzzleBoard[row][row + column] !== value) {
+        }else if (rowValues.includes(Number(value)) && puzzleBoard[row][row + column] !== value) {
+          return false;
+        }else if (rowValues.includes(Number(value)) == false) {
           return true;
         }else {
           return false;
@@ -64,7 +64,6 @@ class SudokuSolver {
     puzzleString = puzzleString.split("");
 
     let puzzleObject = {};
-    let puzzleBoard = {};
 
     let len = puzzleString.length;
     for (let i = 0; i < len; i++) {
@@ -80,166 +79,227 @@ class SudokuSolver {
       }
 
       puzzleObject[rowLetter + col] = puzzleString[i];
-      if (Object.keys(puzzleObject).length == 9) {
-        puzzleBoard[rowLetter] = puzzleObject;
-        puzzleObject = {};
-      }
     }
 
-    let columnCollector = [];
-    let columns = [];
-
-    for (let j = 1; j <= 9; j++) {
-      for (let i = 0; i < 9; i++) {
-        let rowLetter = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
-        columnCollector.push(puzzleBoard[rowLetter[i]][rowLetter[i] + j]);
-        if (columnCollector.length == 9) {
-          columns.push(columnCollector);
-          columnCollector = [];
-        }
-      }
-    }
+    let columns = {};
+    let finalColumn = {};
+    let num = 1;
     
-    let columnString = columns.join("").split(",").join("").split("");
 
-      let puzzleObjects = {};
-      let columnBoard = {};
-      
-      let length = columnString.length;
-    for (let i = 0; i < length; i++) {
-      let rowLetter = String.fromCharCode('A'.charCodeAt(0) + Math.floor(i / 9));
-      let col = (i % 9) + 1; 
+    function columnLooper() {
 
-      if (typeof(columnString[i]) == "string") {
-        columnString[i] = columnString[i] * 1;
-      }
-
-      puzzleObjects[rowLetter + col] = columnString[i];
-      if (Object.keys(puzzleObjects).length == 9) {
-        columnBoard[rowLetter] = puzzleObjects;
-        puzzleObjects = {};
+      for (let j = 1; j <=9; j++) {
+        for (let i = 0; i < 9; i++) {
+          let rowLetter = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+    
+          columns[rowLetter[i] + num] = puzzleObject[rowLetter[i] + num];
+        }
       }
     }
 
-    if (columnBoard[row].hasOwnProperty(row + column)) {
-        let rowValues = Object.values(columnBoard[row]);
-        if (!rowValues.includes(Number(value))) {
-          return true;
-        }else if (rowValues.includes(Number(value)) && columnBoard[row][row + column] == value) {
-          return true;
-        }else if (!rowValues.includes(Number(value)) && columnBoard[row][row + column] !== value) {
-          return true;
-        }else {
-          return false;
-        }
+    columnLooper();
+
+    for (let j = 0; j < 9; j++) {
+      if (Object.keys(columns).length == 9) {
+        finalColumn["column" + num] = columns;
+        columns = {};
+        num = num + 1;
+        columnLooper();
+      }
+    }
+
+    //console.log(finalColumn);
+
+    if (finalColumn["column" + column].hasOwnProperty(row + column)) {
+      let columnValues = Object.values(finalColumn["column" + column]);
+
+      if (columnValues.includes(Number(value)) && finalColumn["column" + column][row + column] == value) {
+        console.log("true");
+        return true;
+      }else if (columnValues.includes(Number(value)) && finalColumn["column" + column][row + column] !== value) {
+        console.log("false");
+        return false
+      }else if (!columnValues.includes(Number(value))) {
+        console.log("true");
+        return true
+      }else {
+        console.log("false");
+        return false;
+      }
     }
   }
 
   checkRegionPlacement(puzzleString, row, column, value) {
-    puzzleString = puzzleString.replace(/[.]/g, 0); // replaces the dots(.) with 0.
-    puzzleString = puzzleString.split("") // converts the string to array of string. 
+    puzzleString = puzzleString.split("");
 
-    puzzleString = puzzleString.map(number => {
-      return Number(number);
-    });
+    let puzzleObject = {};
+    let regionBoard = {};
 
-    //TO SPLIT the puzzleString TO REGION OF 9.
-    let regionPartCollector = [];
-    let regionPart = [];
-
-    puzzleString.forEach(numbers => {
-      regionPartCollector.push(numbers);
-
-      if (regionPartCollector.length == 3) {
-        regionPart.push(regionPartCollector.join(""));
-        regionPartCollector = [];
-      }
-    });
-    
-      function regionOneToThree(regionPart) {
-        let region = [];
-        let sum = 0;
-        let num = []
-        num.push(regionPart[0])
-        for (let i = 0; i < 8; i++) {
-          num.push(regionPart[sum = sum + 3])
-          if (num.length == 3) {
-            region.push(num.join());
-            num = [];
-          }
-        }
-        let region1To3 = [region[0], region[1], region[2]]
-        return region1To3;
-      }
-
-      function regionFourToSix(regionPart) {
-        let region = [];
-        let sum = 1;
-        let num = []
-        num.push(regionPart[1])
-        for (let i = 0; i < 8; i++) {
-          num.push(regionPart[sum = sum + 3])
-          if (num.length == 3) {
-            region.push(num.join());
-            num = [];
-          }
-        }
-        let region4To6 = [region[0], region[1], region[2]]
-        return region4To6;
-      }
-
-      function regionSevenToNine(regionPart) {
-        let region = [];
-        let sum = 2;
-        let num = []
-        num.push(regionPart[2])
-        for (let i = 0; i < 8; i++) {
-          num.push(regionPart[sum = sum + 3])
-          if (num.length == 3) {
-            region.push(num.join());
-            num = [];
-          }
-        }
-        let region7To9 = [region[0], region[1], region[2]];
-        return region7To9;
-      }
-      let regions = [regionOneToThree(regionPart), regionFourToSix(regionPart), regionSevenToNine(regionPart)];
-      let region = [regions[0][0], regions[1][0], regions[2][0], regions[0][1], regions[1][1], regions[2][1], regions[0][2], regions[1][2], regions[2][2]];
-      //--------------------------------------
-      let regionString = region.join("").split(",").join("");
-      regionString = regionString.split("");
-
-      let puzzleObject = {};
-      let regionBoard = {};
-      
-      let len = regionString.length;
+    let len = puzzleString.length;
     for (let i = 0; i < len; i++) {
       let rowLetter = String.fromCharCode('A'.charCodeAt(0) + Math.floor(i / 9));
       let col = (i % 9) + 1; 
 
-      if (typeof(regionString[i]) == "string") {
-        regionString[i] = regionString[i] * 1;
+      if (puzzleString[i] == '.') {
+        puzzleString[i] = '0';
       }
 
-      puzzleObject[rowLetter + col] = regionString[i];
+      if (typeof(puzzleString[i]) == "string") {
+        puzzleString[i] = puzzleString[i] * 1;
+      }
+      puzzleObject[rowLetter + col] = puzzleString[i];
+
       if (Object.keys(puzzleObject).length == 9) {
         regionBoard[rowLetter] = puzzleObject;
         puzzleObject = {};
       }
     }
 
-    if (regionBoard[row].hasOwnProperty(row + column)) {
-        let rowValues = Object.values(regionBoard[row]);
-        if (!rowValues.includes(Number(value))) {
-          return true;
-        }else if (rowValues.includes(Number(value)) && regionBoard[row][row + column] == value) {
-          return true;
-        }else if (!rowValues.includes(Number(value)) && regionBoard[row][row + column] !== value) {
-          return true;
-        }else {
-          return false;
-        }
-      
+    let region = {
+
+      region1: {
+        A1: regionBoard.A.A1, 
+        A2: regionBoard.A.A2, 
+        A3: regionBoard.A.A3, 
+        B1: regionBoard.B.B1, 
+        B2: regionBoard.B.B2, 
+        B3: regionBoard.B.B3, 
+        C1: regionBoard.C.C1,
+        C2: regionBoard.C.C2,
+        C3: regionBoard.C.C3
+      },
+      region2: {
+        A4: regionBoard.A.A4, 
+        A5: regionBoard.A.A5, 
+        A6: regionBoard.A.A6, 
+        B4: regionBoard.B.B4, 
+        B5: regionBoard.B.B5, 
+        B6: regionBoard.B.B6, 
+        C4: regionBoard.C.C4,
+        C5: regionBoard.C.C5,
+        C6: regionBoard.C.C6
+      },
+      region3: {
+        A7: regionBoard.A.A7, 
+        A8: regionBoard.A.A8, 
+        A9: regionBoard.A.A9, 
+        B7: regionBoard.B.B7, 
+        B8: regionBoard.B.B8, 
+        B9: regionBoard.B.B9, 
+        C7: regionBoard.C.C7,
+        C8: regionBoard.C.C8,
+        C9: regionBoard.C.C9
+      },
+      region4: {
+        D1: regionBoard.D.D1, 
+        D2: regionBoard.D.D2, 
+        D3: regionBoard.D.D3, 
+        E1: regionBoard.E.E1, 
+        E2: regionBoard.E.E2, 
+        E3: regionBoard.E.E3, 
+        F1: regionBoard.F.F1,
+        F2: regionBoard.F.F2,
+        F3: regionBoard.F.F3
+      },
+      region5: {
+        D4: regionBoard.D.D4, 
+        D5: regionBoard.D.D5, 
+        D6: regionBoard.D.D6, 
+        E4: regionBoard.E.E4, 
+        E5: regionBoard.E.E5, 
+        E6: regionBoard.E.E6, 
+        F4: regionBoard.F.F4,
+        F5: regionBoard.F.F5,
+        F6: regionBoard.F.F6
+      },
+      region6: {
+        D7: regionBoard.D.D7, 
+        D8: regionBoard.D.D8, 
+        D9: regionBoard.D.D9, 
+        E7: regionBoard.E.E7, 
+        E8: regionBoard.E.E8, 
+        E9: regionBoard.E.E9, 
+        F7: regionBoard.F.F7,
+        F8: regionBoard.F.F8,
+        F9: regionBoard.F.F9
+      },
+      region7: {
+        G1: regionBoard.G.G1, 
+        G2: regionBoard.G.G2, 
+        G3: regionBoard.G.G3, 
+        H1: regionBoard.H.H1, 
+        H2: regionBoard.H.H2, 
+        H3: regionBoard.H.H3, 
+        I1: regionBoard.I.I1,
+        I2: regionBoard.I.I2,
+        I3: regionBoard.I.I3
+      },
+      region8: {
+        G4: regionBoard.G.G4, 
+        G5: regionBoard.G.G5, 
+        G6: regionBoard.G.G6, 
+        H4: regionBoard.H.H4, 
+        H5: regionBoard.H.H5, 
+        H6: regionBoard.H.H6, 
+        I4: regionBoard.I.I4,
+        I5: regionBoard.I.I5,
+        I6: regionBoard.I.I6
+      },
+      region9: {
+        G7: regionBoard.G.G7, 
+        G8: regionBoard.G.G8, 
+        G9: regionBoard.G.G9, 
+        H7: regionBoard.H.H7, 
+        H8: regionBoard.H.H8, 
+        H9: regionBoard.H.H9, 
+        I7: regionBoard.I.I7,
+        I8: regionBoard.I.I8,
+        I9: regionBoard.I.I9
+      }
+
+    };
+
+    //console.log(region);
+
+    let coordinate = row + column;
+    let regionValue;
+
+    if (region.region1.hasOwnProperty(coordinate)) {
+      regionValue = "region1";
+    }else if (region.region2.hasOwnProperty(coordinate)) {
+      regionValue = "region2";
+    }else if (region.region3.hasOwnProperty(coordinate)) {
+      regionValue = "region3";
+    }else if (region.region4.hasOwnProperty(coordinate)) {
+      regionValue = "region4";
+    }else if (region.region5.hasOwnProperty(coordinate)) {
+      regionValue = "region5";
+    }else if (region.region6.hasOwnProperty(coordinate)) {
+      regionValue = "region6";
+    }else if (region.region7.hasOwnProperty(coordinate)) {
+      regionValue = "region7";
+    }else if (region.region8.hasOwnProperty(coordinate)) {
+      regionValue = "region8";
+    }else if (region.region9.hasOwnProperty(coordinate)) {
+      regionValue = "region9";
+    }
+
+    if (region[regionValue].hasOwnProperty(row + column)) {
+      let regionValues = Object.values(region[regionValue]);
+
+      if (regionValues.includes(Number(value)) && region[regionValue][row + column] == value) {
+        console.log("true");
+        return true;
+      }else if (regionValues.includes(Number(value)) && region[regionValue][row + column] !== value) {
+        console.log("false");
+        return false;
+      }else if (!regionValues.includes(Number(value))) {
+        console.log("true");
+        return true
+      }else {
+        console.log("false");
+        return false;
+      }
     }
   }
 
