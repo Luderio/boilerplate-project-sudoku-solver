@@ -393,7 +393,11 @@ function solve(board) {
   let solution = solve(board)
   solution = solution.join().split(",").join("");
 
-  if (solution.includes(0)) {
+  let invalidCharacter = /[^\d.]/g;
+
+  if (this.validate(solution) == 'Invalid characters in puzzle') {
+    return 'Invalid characters in puzzle';
+  }else if (solution.includes(0)) {
     return 'Puzzle cannot be solved';
   }else {
     return solution;
