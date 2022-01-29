@@ -29,13 +29,6 @@ suite('UnitTests', function() {
             done();
         });
 
-        //Test 3.1: Logic handles a puzzle string that is not 81 characters in length.
-        test('String not equal to 81 characters (82 characters)', function(done) {
-            let inputString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6...';
-            assert.equal(solver.validate(inputString), 'Expected puzzle to be 81 characters long');
-            done();
-        });
-
         //TEST 4: Logic handles a valid row placement.
         test('Logic handles a valid row placement', function(done) {
             let puzzle = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
