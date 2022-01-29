@@ -18,6 +18,8 @@ class SudokuSolver {
       return 'Expected puzzle to be 81 characters long';
     }
 
+    return true;
+
   }
 
   checkRowPlacement(puzzleString, row, column, value) {
@@ -114,16 +116,12 @@ class SudokuSolver {
       let columnValues = Object.values(finalColumn["column" + column]);
 
       if (columnValues.includes(Number(value)) && finalColumn["column" + column][row + column] == value) {
-        console.log("true");
         return true;
       }else if (columnValues.includes(Number(value)) && finalColumn["column" + column][row + column] !== value) {
-        console.log("false");
         return false
       }else if (!columnValues.includes(Number(value))) {
-        console.log("true");
         return true
       }else {
-        console.log("false");
         return false;
       }
     }
@@ -288,16 +286,12 @@ class SudokuSolver {
       let regionValues = Object.values(region[regionValue]);
 
       if (regionValues.includes(Number(value)) && region[regionValue][row + column] == value) {
-        console.log("true");
         return true;
       }else if (regionValues.includes(Number(value)) && region[regionValue][row + column] !== value) {
-        console.log("false");
         return false;
       }else if (!regionValues.includes(Number(value))) {
-        console.log("true");
         return true
       }else {
-        console.log("false");
         return false;
       }
     }

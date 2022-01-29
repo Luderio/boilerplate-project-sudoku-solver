@@ -12,6 +12,7 @@ suite('UnitTests', function() {
         test('String should be 81 characters long', function(done) {
             let inputString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
             assert.equal(solver.solve(inputString).length, 81);
+            assert.equal(solver.validate(inputString), true);
             done();
         });
 
@@ -98,8 +99,8 @@ suite('UnitTests', function() {
 
         //Test 11: Invalid puzzle strings fail the solver.
         test('Invalid puzzle strings fail the solver.', function(done) {
-            let inputString = '115..2.84..63.12.7.2..5.....9..1....8.2.3674.3.7.2..9.47...8..1..16....926914.37.';
-            assert.equal(solver.solve(inputString), 'Puzzle cannot be solved');
+            let inputString = '1.5..2.84..63.12.7.2..5.....9..1....8.2.3674.3.7.2..9.47...8..1..16....926914.37.';
+            assert.equal(solver.solve(inputString), 'Invalid characters in puzzle');
             done();
         });
 
