@@ -394,8 +394,6 @@ function solve(board) {
   let solution = solve(board)
   solution = solution.join().split(",").join("");
 
-  console.log(solution);
-
   if (this.validate(stringInput) == 'Invalid characters in puzzle') {
     return false;
   }
