@@ -130,7 +130,8 @@ suite('Functional Tests', function() {
                 assert.equal(response.status, 200);
                 assert.isObject(response.body);
                 assert.equal(response.body.valid, false);
-                assert.equal(response.body.conflict.length, 2);
+                assert.equal(response.body.conflict[0], 'row');
+                assert.equal(response.body.conflict[1], 'column');
                 done();
             });
         });
@@ -149,7 +150,9 @@ suite('Functional Tests', function() {
                 assert.equal(response.status, 200);
                 assert.isObject(response.body);
                 assert.equal(response.body.valid, false);
-                assert.equal(response.body.conflict.length, 3);
+                assert.equal(response.body.conflict[0], 'row');
+                assert.equal(response.body.conflict[1], 'column');
+                assert.equal(response.body.conflict[2], 'region');
                 done();
             });
         });
