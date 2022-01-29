@@ -36,6 +36,66 @@ suite('UnitTests', function() {
             done();
         });
 
+        //TEST 4: Logic handles a valid row placement.
+        test('Logic handles a valid row placement', function(done) {
+            let puzzle = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
+            let row = 'A';
+            let column = '1';
+            let value = '7';
+            assert.equal(solver.checkRowPlacement(puzzle, row, column, value), true);
+            done();
+        });
+
+        //Test 5: Logic handles an invalid row placement.
+        test('Logic handles an invalid row placement', function(done) {
+            let puzzle = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
+            let row = 'A';
+            let column = '1';
+            let value = '1';
+            assert.equal(solver.checkRowPlacement(puzzle, row, column, value), false);
+            done();
+        });
+
+        //Test 6: Logic handles a valid column placement.
+        test('Logic handles a valid column placement', function(done) {
+            let puzzle = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
+            let row = 'A';
+            let column = '1';
+            let value = '7';
+            assert.equal(solver.checkColPlacement(puzzle, row, column, value), true);
+            done();
+        });
+
+        //Test 7: Logic handles an invalid column placement.
+        test('Logic handles an invalid column placement', function(done) {
+            let puzzle = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
+            let row = 'A';
+            let column = '1';
+            let value = '1';
+            assert.equal(solver.checkColPlacement(puzzle, row, column, value), false);
+            done();
+        });
+
+        //Test 8: Logic handles a valid region (3x3 grid) placement
+        test('Logic handles a valid region (3x3 grid) placement', function(done) {
+            let puzzle = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
+            let row = 'A';
+            let column = '1';
+            let value = '7';
+            assert.equal(solver.checkRegionPlacement(puzzle, row, column, value), true);
+            done();
+        });
+
+        //Test 9: Logic handles an invalid region (3x3 grid) placement
+        test('Logic handles an invalid region (3x3 grid) placement', function(done) {
+            let puzzle = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
+            let row = 'A';
+            let column = '1';
+            let value = '2';
+            assert.equal(solver.checkRegionPlacement(puzzle, row, column, value), false);
+            done();
+        });
+
         //Test 10: Valid puzzle strings pass the solver.
         test('Valid puzzle strings pass the solver.', function(done) {
             let inputString = '1.5..2.84..63.12.7.2..5.....9..1....8.2.3674.3.7.2..9.47...8..1..16....926914.37.';
